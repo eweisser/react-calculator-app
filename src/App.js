@@ -1,13 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
 
+// body background is orange
+
 function App() {
   return (
-    <div className="App">
+    <div className="App">                 {/* background is blue */}
 
       <div id="calculator-container">
 
-        <div id="big-grid">
+        <div id="big-grid">               {/* background is purple */}
+
+          <div id="answer-display">
+          </div>
+
+          <div id="keypad">               {/* background is red */}
+          </div>
           
         </div>
 
@@ -15,7 +23,7 @@ function App() {
 
 
 
-      <header className="App-header">
+      <header className="App-header">     {/* background is green */}
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.

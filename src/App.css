@@ -18,6 +18,32 @@
   height: 100%;
 }
 
+#answer-display {
+  background-color: #FFF;
+  border: 1px solid #79B;
+  font-family: "Calibri", "Trebuchet MS", "Tahoma", sans-serif;
+  letter-spacing: 1px;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  overflow: auto;
+  padding: 5px 8px;
+  text-align: right;
+}
+
+#keypad {
+  background-color: #F00;
+  border-collapse: collapse;
+  display: grid;
+  grid-row-start: 3;
+  grid-row-end: 8;
+  grid-template-rows: repeat(5, minmax(0,1fr));
+  grid-template-columns: repeat(5, minmax(0,1fr));
+  font-size: 16pt;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+}
+
 .App {
   background-color: #00f;
   text-align: center;
