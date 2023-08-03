@@ -44,6 +44,64 @@
   -webkit-user-select: none;
 }
 
+.kpButton {
+  border: 1px solid #567;
+  border-collapse: collapse;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kpCol1 {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.kpCol2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.kpCol3 {
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
+.kpCol4 {
+  grid-column-start: 4;
+  grid-column-end: 5;
+}
+
+.kpCol5 {
+  grid-column-start: 5;
+  grid-column-end: 6;
+}
+
+#clearButton {
+  background-color: #182850;
+  color: #fff;
+  grid-row-start: 2;
+  grid-row-end: 4;
+}
+
+#equalsButton {
+  background-color: #fff;
+  grid-row-start: 4;
+  grid-row-end: 6;
+}
+
+.offWhite {
+  background-color: #ECF5FF;
+}
+
+.ltGray {
+  background-color: #CFDAE6;
+}
+
+.medGray {
+  background-color: #B3BFCC;
+}
+
 .App {
   background-color: #00f;
   text-align: center;

@@ -1,9 +1,9 @@
 import "./calc-button.css"
 
-const CalcButton = (props) => {
+const CalcButton = ({symbol, cssId, gridClass, colorGroup}) => {
     return (
-        <div className={`${props.gridClass} ${props.colorGroup} kpButton`}>
-            {props.symbol}
+        <div id={cssId} className={`${gridClass} ${colorGroup} kpButton`}>
+            {symbol}
         </div>
     );
 }
