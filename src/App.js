@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import CalcButton from './components/calc-button/calc-button';
 
 // body background is orange
 
@@ -15,6 +16,15 @@ function App() {
           </div>
 
           <div id="keypad">               {/* background is red */}
+
+            <CalcButton symbol="(" gridClass="kpCol1" colorGroup="medGray" onClick={() => this.sendSymbolToDisplay("(")} />
+            <CalcButton symbol=")" gridClass="kpCol2" colorGroup="medGray" onClick={() => this.sendSymbolToDisplay(")")} />
+            <CalcButton symbol="^" gridClass="kpCol3" colorGroup="medGray" onClick={() => this.sendSymbolToDisplay("^")} />
+            <CalcButton symbol="√" gridClass="kpCol4" colorGroup="medGray" onClick={() => this.sendSymbolToDisplay("√")} />
+            <CalcButton symbol="" gridClass="kpCol5" colorGroup="medGray" />
+
+            <CalcButton symbol="7" gridclass="kpCol1" colorGroup="offWhite" onClick={() => this.sendSymbolToDisplay("7")} />
+
           </div>
           
         </div>
