@@ -1,10 +1,14 @@
 import { useState } from 'react';
 
-const AnswerDisplay = () => {
+const AnswerDisplay = ({sendSymbolToDisplay}) => {
 
-    const [displayedExpression, setDisplayedExpression] = useState(0);
+    // function receiveSymbol() {
+    //     setDisplayedExpression({sendSymbolToDisplay});
+    // }
 
-    function receiveSymbol(newSymbol) {
+    var current = sendSymbolToDisplay;
+    var displayedExpression = current;
+
     //     var current = this.state.displayedExpression;
     //     if (current==="0" && !".+*/^√".includes(newSymbol)) {
     //       this.setState({       // replace 0 with the new symbol
@@ -21,11 +25,10 @@ const AnswerDisplay = () => {
     //         displayedExpression: current + "*("
     //       });
     //     } else {
-                function handleDisplayedExpression() {
-                    setDisplayedExpression(newSymbol);
-                }
+                // function handleDisplayedExpression() {
+                //     setDisplayedExpression(newSymbol);
+                // }
     //     }
-    }
 
 
     // function evaluateDisplay() {
