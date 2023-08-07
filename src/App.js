@@ -6,14 +6,18 @@ import { useState } from 'react';
 
 function App() {
 
-  const [symbolBeingSent, setSymbolBeingSent] = useState(0);
+  const [expression, setExpression] = useState(0);
 
   const sendSymbolToApp = (symbolFromButton) => {
-      sendSymbolToDisplay(symbolFromButton);
+      sendExpressionToDisplay(symbolFromButton);
   };
 
-  const sendSymbolToDisplay = (symbolToDisplay) => {
-      setSymbolBeingSent(symbolToDisplay);
+  const sendExpressionToDisplay = (newSymbol) => {
+      if (expression.toString()==="0" && !".+*/^√".includes(newSymbol)) {
+          setExpression(newSymbol);
+      } else {
+          setExpression(expression + newSymbol);
+      }
   }
 
   return (
@@ -23,7 +27,7 @@ function App() {
 
         <div id="big-grid">               {/* background is purple */}
 
-          <AnswerDisplay sendSymbolToDisplay={symbolBeingSent} />
+          <AnswerDisplay sendExpressionToDisplay={expression} />
 
           <div id="keypad">               {/* background is red */}
 
@@ -49,7 +53,7 @@ function App() {
             <CalcButton symbol="2" gridClass="kpCol2" colorGroup="offWhite" onPress={() => sendSymbolToApp("2")} />
             <CalcButton symbol="3" gridClass="kpCol3" colorGroup="offWhite" onPress={() => sendSymbolToApp("3")} />
             <CalcButton symbol="–" gridClass="kpCol4" colorGroup="ltGray" onPress={() => sendSymbolToApp("-")} />
-            <CalcButton symbol="=" gridClass="kpCol5" cssId="equalsButton" onPress={() => this.evaluateDisplay()} />
+            <CalcButton symbol="=" gridClass="kpCol5" cssId="equalsButton" />
 
             <CalcButton symbol="0" gridClass="kpCol1" colorGroup="offWhite" onPress={() => sendSymbolToApp("0")} />
             <CalcButton symbol="." gridClass="kpCol2" colorGroup="medGray" onPress={() => sendSymbolToApp(".")} />
