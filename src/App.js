@@ -20,6 +20,19 @@ function App() {
       }
   }
 
+  const evaluateDisplay = () => {
+      // while (/\d+\.?\d*(\+|\-)\d+\.?\d*/.test(expression)) {       // handle addition, subtraction
+        var searchExpRad = /\d+\.?\d*(\+|\-)\d+\.?\d*/.exec(expression);
+        var thisEval = searchExpRad[0].split(searchExpRad[1]);
+        if (searchExpRad[1]==="+") {
+          thisEval = parseFloat(thisEval[0]) + parseFloat(thisEval[1]);
+        } else {
+          thisEval = parseFloat(thisEval[0]) - parseFloat(thisEval[1]);
+        }
+        setExpression(expression.replace(searchExpRad[0],thisEval.toString()));
+      // }
+  }
+
   return (
     <div className="App">                 {/* background is blue */}
 
@@ -53,7 +66,7 @@ function App() {
             <CalcButton symbol="2" gridClass="kpCol2" colorGroup="offWhite" onPress={() => sendSymbolToApp("2")} />
             <CalcButton symbol="3" gridClass="kpCol3" colorGroup="offWhite" onPress={() => sendSymbolToApp("3")} />
             <CalcButton symbol="–" gridClass="kpCol4" colorGroup="ltGray" onPress={() => sendSymbolToApp("-")} />
-            <CalcButton symbol="=" gridClass="kpCol5" cssId="equalsButton" />
+            <CalcButton symbol="=" gridClass="kpCol5" cssId="equalsButton" onPress={() => evaluateDisplay()} />
 
             <CalcButton symbol="0" gridClass="kpCol1" colorGroup="offWhite" onPress={() => sendSymbolToApp("0")} />
             <CalcButton symbol="." gridClass="kpCol2" colorGroup="medGray" onPress={() => sendSymbolToApp(".")} />
