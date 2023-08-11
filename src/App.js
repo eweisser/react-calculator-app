@@ -21,16 +21,33 @@ function App() {
   }
 
   const evaluateDisplay = () => {
-      // while (/\d+\.?\d*(\+|\-)\d+\.?\d*/.test(expression)) {       // handle addition, subtraction
-        var searchExpRad = /\d+\.?\d*(\+|\-)\d+\.?\d*/.exec(expression);
-        var thisEval = searchExpRad[0].split(searchExpRad[1]);
-        if (searchExpRad[1]==="+") {
-          thisEval = parseFloat(thisEval[0]) + parseFloat(thisEval[1]);
+
+      var updatedExpression = expression;
+
+      while (/\d+\.?\d*(\*|\/)\d+\.?\d*/.test(updatedExpression)) {       // handle multiplication, division
+        var searchExpRadMD = /\d+\.?\d*(\*|\/)\d+\.?\d*/.exec(updatedExpression);
+        var thisEvalMD = searchExpRadMD[0].split(searchExpRadMD[1]);
+        if (searchExpRadMD[1]==="*") {
+          thisEvalMD = parseFloat(thisEvalMD[0]) * parseFloat(thisEvalMD[1]);
         } else {
-          thisEval = parseFloat(thisEval[0]) - parseFloat(thisEval[1]);
+          thisEvalMD = parseFloat(thisEvalMD[0]) / parseFloat(thisEvalMD[1]);
         }
-        setExpression(expression.replace(searchExpRad[0],thisEval.toString()));
-      // }
+        var updatedExpression = updatedExpression.replace(searchExpRadMD[0],thisEvalMD.toString());
+    }
+
+      while (/\d+\.?\d*(\+|\-)\d+\.?\d*/.test(updatedExpression)) {       // handle addition, subtraction
+          var searchExpRadAS = /\d+\.?\d*(\+|\-)\d+\.?\d*/.exec(updatedExpression);
+          var thisEvalAS = searchExpRadAS[0].split(searchExpRadAS[1]);
+          if (searchExpRadAS[1]==="+") {
+            thisEvalAS = parseFloat(thisEvalAS[0]) + parseFloat(thisEvalAS[1]);
+          } else {
+            thisEvalAS = parseFloat(thisEvalAS[0]) - parseFloat(thisEvalAS[1]);
+          }
+          var updatedExpression = updatedExpression.replace(searchExpRadAS[0],thisEvalAS.toString());
+      }
+
+      setExpression(updatedExpression);
+
   }
 
   return (
@@ -54,7 +71,7 @@ function App() {
             <CalcButton symbol="8" gridClass="kpCol2" colorGroup="offWhite" onPress={() => sendSymbolToApp("8")} />
             <CalcButton symbol="9" gridClass="kpCol3" colorGroup="offWhite" onPress={() => sendSymbolToApp("9")} />
 
-            <CalcButton symbol="÷" gridClass="kpCol4" colorGroup="ltGray" onPress={() => sendSymbolToApp("÷")} />
+            <CalcButton symbol="÷" gridClass="kpCol4" colorGroup="ltGray" onPress={() => sendSymbolToApp("/")} />
             <CalcButton symbol="Cl." gridClass="kpCol5" cssId="clearButton" />
 
             <CalcButton symbol="4" gridClass="kpCol1" colorGroup="offWhite" onPress={() => sendSymbolToApp("4")} />
