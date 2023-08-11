@@ -20,6 +20,14 @@ function App() {
       }
   }
 
+  const clearDisplay = () => {
+      setExpression(0);
+  }
+
+  const backspaceDisplay = () => {
+      setExpression(expression.slice(0,-1));
+  }
+
   const evaluateDisplay = () => {
 
       var updatedExpression = expression;
@@ -72,7 +80,7 @@ function App() {
             <CalcButton symbol="9" gridClass="kpCol3" colorGroup="offWhite" onPress={() => sendSymbolToApp("9")} />
 
             <CalcButton symbol="÷" gridClass="kpCol4" colorGroup="ltGray" onPress={() => sendSymbolToApp("/")} />
-            <CalcButton symbol="Cl." gridClass="kpCol5" cssId="clearButton" />
+            <CalcButton symbol="Cl." gridClass="kpCol5" cssId="clearButton" onPress={() => clearDisplay()} />
 
             <CalcButton symbol="4" gridClass="kpCol1" colorGroup="offWhite" onPress={() => sendSymbolToApp("4")} />
             <CalcButton symbol="5" gridClass="kpCol2" colorGroup="offWhite" onPress={() => sendSymbolToApp("5")} />
@@ -87,7 +95,7 @@ function App() {
 
             <CalcButton symbol="0" gridClass="kpCol1" colorGroup="offWhite" onPress={() => sendSymbolToApp("0")} />
             <CalcButton symbol="." gridClass="kpCol2" colorGroup="medGray" onPress={() => sendSymbolToApp(".")} />
-            <CalcButton symbol="←" gridClass="kpCol3" colorGroup="medGray" />
+            <CalcButton symbol="←" gridClass="kpCol3" colorGroup="medGray" onPress={() => backspaceDisplay()} />
             <CalcButton symbol="+" gridClass="kpCol4" colorGroup="ltGray" onPress={() => sendSymbolToApp("+")} />
 
           </div>
