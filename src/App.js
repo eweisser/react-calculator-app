@@ -25,35 +25,56 @@ function App() {
   }
 
   const backspaceDisplay = () => {
-      setExpression(expression.slice(0,-1));
+      if (expression && expression.length > 1) {
+        setExpression(expression.slice(0,-1));
+      } else {
+        setExpression(0);
+      }
   }
 
   const evaluateDisplay = () => {
 
-      var updatedExpression = expression;
+      var updatedExpression = expression;   // need this because state can't be updated in a loop
 
-      while (/\d+\.?\d*(\*|\/)\d+\.?\d*/.test(updatedExpression)) {       // handle multiplication, division
-        var searchExpRadMD = /\d+\.?\d*(\*|\/)\d+\.?\d*/.exec(updatedExpression);
-        var thisEvalMD = searchExpRadMD[0].split(searchExpRadMD[1]);
-        if (searchExpRadMD[1]==="*") {
-          thisEvalMD = parseFloat(thisEvalMD[0]) * parseFloat(thisEvalMD[1]);
-        } else {
-          thisEvalMD = parseFloat(thisEvalMD[0]) / parseFloat(thisEvalMD[1]);
-        }
-        var updatedExpression = updatedExpression.replace(searchExpRadMD[0],thisEvalMD.toString());
-    }
+      while (/(\+|(?<!^)\-|\*|\/|\^|√|\(|\))/.test(updatedExpression)) {
 
-      while (/\d+\.?\d*(\+|\-)\d+\.?\d*/.test(updatedExpression)) {       // handle addition, subtraction
-          var searchExpRadAS = /\d+\.?\d*(\+|\-)\d+\.?\d*/.exec(updatedExpression);
-          var thisEvalAS = searchExpRadAS[0].split(searchExpRadAS[1]);
-          if (searchExpRadAS[1]==="+") {
-            thisEvalAS = parseFloat(thisEvalAS[0]) + parseFloat(thisEvalAS[1]);
-          } else {
-            thisEvalAS = parseFloat(thisEvalAS[0]) - parseFloat(thisEvalAS[1]);
+          updatedExpression = updatedExpression.replace(/\+\-/g,"-");
+          updatedExpression = updatedExpression.replace(/\-\-/g,"+");
+
+          while (/\d+\.?\d*(\^|√)\d+\.?\d*/.test(updatedExpression)) {    // handle exponents, roots
+            var searchExpRad = /\d+\.?\d*(\^|√)\d+\.?\d*/.exec(updatedExpression);
+            var thisEval = searchExpRad[0].split(searchExpRad[1])
+            if (searchExpRad[1]==="^") {
+              thisEval = Math.pow(parseFloat(thisEval[0]),parseFloat(thisEval[1]));
+            } else {
+              thisEval = Math.pow(parseFloat(thisEval[1]),1/parseFloat(thisEval[0]));
+            }
+            updatedExpression = updatedExpression.replace(searchExpRad[0],thisEval.toString());
           }
-          var updatedExpression = updatedExpression.replace(searchExpRadAS[0],thisEvalAS.toString());
-      }
 
+          while (/\d+\.?\d*(\*|\/)\d+\.?\d*/.test(updatedExpression)) {       // handle multiplication, division
+            var searchExpRadMD = /\d+\.?\d*(\*|\/)\d+\.?\d*/.exec(updatedExpression);
+            var thisEvalMD = searchExpRadMD[0].split(searchExpRadMD[1]);
+            if (searchExpRadMD[1]==="*") {
+              thisEvalMD = parseFloat(thisEvalMD[0]) * parseFloat(thisEvalMD[1]);
+            } else {
+              thisEvalMD = parseFloat(thisEvalMD[0]) / parseFloat(thisEvalMD[1]);
+            }
+            updatedExpression = updatedExpression.replace(searchExpRadMD[0],thisEvalMD.toString());
+          }
+
+          while (/\d+\.?\d*(\+|\-)\d+\.?\d*/.test(updatedExpression)) {       // handle addition, subtraction
+              var searchExpRadAS = /\d+\.?\d*(\+|\-)\d+\.?\d*/.exec(updatedExpression);
+              var thisEvalAS = searchExpRadAS[0].split(searchExpRadAS[1]);
+              if (searchExpRadAS[1]==="+") {
+                thisEvalAS = parseFloat(thisEvalAS[0]) + parseFloat(thisEvalAS[1]);
+              } else {
+                thisEvalAS = parseFloat(thisEvalAS[0]) - parseFloat(thisEvalAS[1]);
+              }
+              updatedExpression = updatedExpression.replace(searchExpRadAS[0],thisEvalAS.toString());
+          }
+      }
+      
       setExpression(updatedExpression);
 
   }
