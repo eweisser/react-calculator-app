@@ -15,6 +15,14 @@ function App() {
   const sendExpressionToDisplay = (newSymbol) => {
       if (expression.toString()==="0" && !".+*/^√".includes(newSymbol)) {
           setExpression(newSymbol);
+      } else if (/(\+|\*|\/|\^|√|\-|\()$/.test(expression) && "+*/^√)".includes(newSymbol)) {
+          // do nothing--invalid input sequence e.g. ++, +), -+, -), (+, ()
+      } else if (/(\)|\.)$/.test(expression) && newSymbol===".") {
+          // do nothing--invalid input sequence: ). or ..
+      } else if (expression.slice(-1)===")" && /\d/.test(newSymbol)) {
+          // do nothing--invalid input sequence: e.g. )3
+      } else if (/(\d|\)|\.)$/.test(expression) && newSymbol==="(") { 
+          setExpression(expression + "*(");     // special cases assuming the user intends multiplication
       } else {
           setExpression(expression + newSymbol);
       }
@@ -73,6 +81,15 @@ function App() {
               }
               updatedExpression = updatedExpression.replace(searchExpRadAS[0],thisEvalAS.toString());
           }
+
+          while (/\(\-?\d+\.?\d*\)/.exec(updatedExpression)) {      // eliminate superfluous parentheses
+              var searchExpRad = /\(\-?\d+\.?\d*\)/.exec(updatedExpression);
+              var simplified = searchExpRad[0].slice(1,-1);
+              // console.log(searchExpRad);
+              updatedExpression = updatedExpression.replace(searchExpRad[0],simplified);
+          }
+
+
       }
       
       setExpression(updatedExpression);
