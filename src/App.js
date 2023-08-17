@@ -43,6 +43,14 @@ function App() {
   const evaluateDisplay = () => {
 
       var updatedExpression = expression;   // need this because state can't be updated in a loop
+      const regexForFloatLimit = /\d+/g;
+      var allNumbersFound = updatedExpression.match(regexForFloatLimit);
+      for (let number of allNumbersFound) {
+          if (number > Math.pow(2,53)) {
+              console.log("overage");
+          }
+      }
+      
 
       while (/(\+|(?<!^)\-|\*|\/|\^|√|\(|\))/.test(updatedExpression)) {
 
@@ -73,7 +81,7 @@ function App() {
 
           while (/\d+\.?\d*(\+|\-)\d+\.?\d*/.test(updatedExpression)) {       // handle addition, subtraction
               var searchExpRadAS = /\d+\.?\d*(\+|\-)\d+\.?\d*/.exec(updatedExpression);
-              var thisEvalAS = searchExpRadAS[0].split(searchExpRadAS[1]);
+              var thisEvalAS = searchExpRadAS[0].split(searchExpRadAS[1]);    // split at either + or -
               if (searchExpRadAS[1]==="+") {
                 thisEvalAS = parseFloat(thisEvalAS[0]) + parseFloat(thisEvalAS[1]);
               } else {
@@ -92,6 +100,13 @@ function App() {
 
       }
       
+      allNumbersFound = updatedExpression.match(regexForFloatLimit);
+      for (let number of allNumbersFound) {
+          if (number > Math.pow(2,53)) {
+              console.log("overage");
+          }
+      }
+
       setExpression(updatedExpression);
 
   }
