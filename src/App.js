@@ -15,6 +15,8 @@ function App() {
   const sendExpressionToDisplay = (newSymbol) => {
       if (expression.toString()==="0" && !".+*/^√".includes(newSymbol)) {
           setExpression(newSymbol);
+      } else if (expression.slice(0,1)==="E") {
+          setExpression(newSymbol);
       } else if (/(\+|\*|\/|\^|√|\-|\()$/.test(expression) && "+*/^√)".includes(newSymbol)) {
           // do nothing--invalid input sequence e.g. ++, +), -+, -), (+, ()
       } else if (/(\)|\.)$/.test(expression) && newSymbol===".") {
@@ -45,12 +47,13 @@ function App() {
       var updatedExpression = expression;   // need this because state can't be updated in a loop
       const regexForFloatLimit = /\d+/g;
       var allNumbersFound = updatedExpression.match(regexForFloatLimit);
-      for (let number of allNumbersFound) {
-          if (number > Math.pow(2,53)) {
-              console.log("overage");
+      if (allNumbersFound) {
+          for (let number of allNumbersFound) {
+              if (number >= Math.pow(2,53)) {
+                  updatedExpression = "Error: exceeds float limit.";
+              }
           }
       }
-      
 
       while (/(\+|(?<!^)\-|\*|\/|\^|√|\(|\))/.test(updatedExpression)) {
 
@@ -101,9 +104,11 @@ function App() {
       }
       
       allNumbersFound = updatedExpression.match(regexForFloatLimit);
-      for (let number of allNumbersFound) {
-          if (number > Math.pow(2,53)) {
-              console.log("overage");
+      if (allNumbersFound) {
+          for (let number of allNumbersFound) {
+              if (number >= Math.pow(2,53)) {
+                  updatedExpression = "Error: exceeds float limit.";
+              }
           }
       }
 
