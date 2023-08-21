@@ -12,12 +12,12 @@ function App() {
       sendExpressionToDisplay(symbolFromButton);
   };
 
-  const sendExpressionToDisplay = (newSymbol) => {
+  const sendExpressionToDisplay = (newSymbol) => {        // fix input error e.g. 12.34.56
       if (expression.toString()==="0" && !".+*/^√".includes(newSymbol)) {
           setExpression(newSymbol);
       } else if (expression.slice(0,1)==="E") {
           setExpression(newSymbol);
-      } else if (/(\+|\*|\/|\^|√|\-|\()$/.test(expression) && "+*/^√)".includes(newSymbol)) {
+      } else if (/(\+|\*|\/|\^|√|-|\()$/.test(expression) && "+*/^√)".includes(newSymbol)) {
           // do nothing--invalid input sequence e.g. ++, +), -+, -), (+, ()
       } else if (/(\)|\.)$/.test(expression) && newSymbol===".") {
           // do nothing--invalid input sequence: ). or ..
@@ -30,11 +30,11 @@ function App() {
       }
   }
 
-  const clearDisplay = () => {
+  const clearDisplay = () => {                // when user presses "Cl." button
       setExpression(0);
   }
 
-  const backspaceDisplay = () => {
+  const backspaceDisplay = () => {            // when user presses "<-" button
       if (expression && expression.length > 1) {
         setExpression(expression.slice(0,-1));
       } else {
@@ -44,7 +44,7 @@ function App() {
 
   const evaluateDisplay = () => {
 
-      var updatedExpression = expression;   // need this because state can't be updated in a loop
+      var updatedExpression = expression.toString();   // need this because state can't be updated in a loop
       const regexForFloatLimit = /\d+/g;
       var allNumbersFound = updatedExpression.match(regexForFloatLimit);
       if (allNumbersFound) {
@@ -55,10 +55,10 @@ function App() {
           }
       }
 
-      while (/(\+|(?<!^)\-|\*|\/|\^|√|\(|\))/.test(updatedExpression)) {
+      while (/(\+|(?<!^)-|\*|\/|\^|√|\(|\))/.test(updatedExpression)) {
 
-          updatedExpression = updatedExpression.replace(/\+\-/g,"-");
-          updatedExpression = updatedExpression.replace(/\-\-/g,"+");
+          updatedExpression = updatedExpression.replace(/\+-/g,"-");
+          updatedExpression = updatedExpression.replace(/--/g,"+");
 
           while (/\d+\.?\d*(\^|√)\d+\.?\d*/.test(updatedExpression)) {    // handle exponents, roots
             var searchExpRad = /\d+\.?\d*(\^|√)\d+\.?\d*/.exec(updatedExpression);
@@ -82,8 +82,8 @@ function App() {
             updatedExpression = updatedExpression.replace(searchExpRadMD[0],thisEvalMD.toString());
           }
 
-          while (/\d+\.?\d*(\+|\-)\d+\.?\d*/.test(updatedExpression)) {       // handle addition, subtraction
-              var searchExpRadAS = /\d+\.?\d*(\+|\-)\d+\.?\d*/.exec(updatedExpression);
+          while (/\d+\.?\d*(\+|-)\d+\.?\d*/.test(updatedExpression)) {       // handle addition, subtraction
+              var searchExpRadAS = /\d+\.?\d*(\+|-)\d+\.?\d*/.exec(updatedExpression);
               var thisEvalAS = searchExpRadAS[0].split(searchExpRadAS[1]);    // split at either + or -
               if (searchExpRadAS[1]==="+") {
                 thisEvalAS = parseFloat(thisEvalAS[0]) + parseFloat(thisEvalAS[1]);
@@ -93,8 +93,8 @@ function App() {
               updatedExpression = updatedExpression.replace(searchExpRadAS[0],thisEvalAS.toString());
           }
 
-          while (/\(\-?\d+\.?\d*\)/.exec(updatedExpression)) {      // eliminate superfluous parentheses
-              var searchExpRad = /\(\-?\d+\.?\d*\)/.exec(updatedExpression);
+          while (/\(-?\d+\.?\d*\)/.exec(updatedExpression)) {      // eliminate superfluous parentheses
+              searchExpRad = /\(-?\d+\.?\d*\)/.exec(updatedExpression);
               var simplified = searchExpRad[0].slice(1,-1);
               // console.log(searchExpRad);
               updatedExpression = updatedExpression.replace(searchExpRad[0],simplified);
