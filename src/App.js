@@ -12,13 +12,15 @@ function App() {
       sendExpressionToDisplay(symbolFromButton);
   };
 
-  const sendExpressionToDisplay = (newSymbol) => {        // fix input error e.g. 12.34.56
+  const sendExpressionToDisplay = (newSymbol) => {
       if (expression.toString()==="0" && !".+*/^√".includes(newSymbol)) {
           setExpression(newSymbol);
       } else if (expression.slice(0,1)==="E") {
           setExpression(newSymbol);
       } else if (/(\+|\*|\/|\^|√|-|\()$/.test(expression) && "+*/^√)".includes(newSymbol)) {
           // do nothing--invalid input sequence e.g. ++, +), -+, -), (+, ()
+      } else if (/\.\d*$/.test(expression) && newSymbol===".") {
+          // do nothing--invalid input sequence: double decimal
       } else if (/(\)|\.)$/.test(expression) && newSymbol===".") {
           // do nothing--invalid input sequence: ). or ..
       } else if (expression.slice(-1)===")" && /\d/.test(newSymbol)) {
