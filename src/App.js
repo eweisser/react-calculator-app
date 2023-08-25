@@ -44,6 +44,14 @@ function App() {
       }
   }
 
+  const oppositeSign = () => {            // when user presses "+/-" button
+    if (expression && expression.length > 1) {
+      setExpression(expression.slice(0,-1));
+    } else {
+      setExpression(0);
+    }
+}
+
   const evaluateDisplay = () => {
 
       var updatedExpression = expression.toString();   // need this because state can't be updated in a loop
@@ -62,9 +70,12 @@ function App() {
           updatedExpression = updatedExpression.replace(/\+-/g,"-");
           updatedExpression = updatedExpression.replace(/--/g,"+");
 
-          while (/\d+\.?\d*(\^|√)\d+\.?\d*/.test(updatedExpression)) {    // handle exponents, roots
-            var searchExpRad = /\d+\.?\d*(\^|√)\d+\.?\d*/.exec(updatedExpression);
+          while (/-?\d+\.?\d*(\^|√)-?\d+\.?\d*/.test(updatedExpression)) {    // handle exponents, roots
+            var searchExpRad = /-?\d+\.?\d*(\^|√)-?\d+\.?\d*/.exec(updatedExpression);
+            console.log(searchExpRad);
             var thisEval = searchExpRad[0].split(searchExpRad[1])
+            console.log(thisEval[0]);
+            console.log(thisEval[1]);
             if (searchExpRad[1]==="^") {
               thisEval = Math.pow(parseFloat(thisEval[0]),parseFloat(thisEval[1]));
             } else {
@@ -73,9 +84,12 @@ function App() {
             updatedExpression = updatedExpression.replace(searchExpRad[0],thisEval.toString());
           }
 
-          while (/\d+\.?\d*(\*|\/)\d+\.?\d*/.test(updatedExpression)) {       // handle multiplication, division
-            var searchExpRadMD = /\d+\.?\d*(\*|\/)\d+\.?\d*/.exec(updatedExpression);
+          while (/-?\d+\.?\d*(\*|\/)-?\d+\.?\d*/.test(updatedExpression)) {       // handle multiplication, division
+            var searchExpRadMD = /-?\d+\.?\d*(\*|\/)-?\d+\.?\d*/.exec(updatedExpression);
+            console.log(searchExpRadMD);
             var thisEvalMD = searchExpRadMD[0].split(searchExpRadMD[1]);
+            console.log(thisEvalMD[0]);
+            console.log(thisEvalMD[1]);
             if (searchExpRadMD[1]==="*") {
               thisEvalMD = parseFloat(thisEvalMD[0]) * parseFloat(thisEvalMD[1]);
             } else {
@@ -84,21 +98,21 @@ function App() {
             updatedExpression = updatedExpression.replace(searchExpRadMD[0],thisEvalMD.toString());
           }
 
-          while (/\d+\.?\d*(\+|-)\d+\.?\d*/.test(updatedExpression)) {       // handle addition, subtraction
-              var searchExpRadAS = /\d+\.?\d*(\+|-)\d+\.?\d*/.exec(updatedExpression);
-              var thisEvalAS = searchExpRadAS[0].split(searchExpRadAS[1]);    // split at either + or -
-              if (searchExpRadAS[1]==="+") {
-                thisEvalAS = parseFloat(thisEvalAS[0]) + parseFloat(thisEvalAS[1]);
-              } else {
-                thisEvalAS = parseFloat(thisEvalAS[0]) - parseFloat(thisEvalAS[1]);
-              }
+          while (/-?\d+\.?\d*(\+|-)\d+\.?\d*/.test(updatedExpression)) {       // handle addition, subtraction
+              var searchExpRadAS = /-?\d+\.?\d*(\+|-)\d+\.?\d*/.exec(updatedExpression);
+              console.log("A   "+searchExpRadAS);
+              var thisEvalAS = updatedExpression.match(/-?\d+/g);
+              console.log("B   "+thisEvalAS);
+              console.log("C   "+thisEvalAS[0]);
+              console.log("D   "+thisEvalAS[1]);
+              thisEvalAS = parseFloat(thisEvalAS[0]) + parseFloat(thisEvalAS[1]);
               updatedExpression = updatedExpression.replace(searchExpRadAS[0],thisEvalAS.toString());
           }
 
           while (/\(-?\d+\.?\d*\)/.exec(updatedExpression)) {      // eliminate superfluous parentheses
               searchExpRad = /\(-?\d+\.?\d*\)/.exec(updatedExpression);
               var simplified = searchExpRad[0].slice(1,-1);
-              // console.log(searchExpRad);
+              console.log(searchExpRad);
               updatedExpression = updatedExpression.replace(searchExpRad[0],simplified);
           }
 
@@ -133,7 +147,7 @@ function App() {
             <CalcButton symbol=")" gridClass="kpCol2" colorGroup="medGray" onPress={() => sendSymbolToApp(")")} />
             <CalcButton symbol="^" gridClass="kpCol3" colorGroup="medGray" onPress={() => sendSymbolToApp("^")} />
             <CalcButton symbol="√" gridClass="kpCol4" colorGroup="medGray" onPress={() => sendSymbolToApp("√")} />
-            <CalcButton symbol="" gridClass="kpCol5" colorGroup="medGray" />
+            <CalcButton symbol="+/-" gridClass="kpCol5" colorGroup="medGray" onPress={() => oppositeSign()} />
 
             <CalcButton symbol="7" gridClass="kpCol1" colorGroup="offWhite" onPress={() => sendSymbolToApp("7")} />
             <CalcButton symbol="8" gridClass="kpCol2" colorGroup="offWhite" onPress={() => sendSymbolToApp("8")} />
