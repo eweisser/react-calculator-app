@@ -13,21 +13,30 @@ function App() {
   };
 
   const sendExpressionToDisplay = (newSymbol) => {
+      console.log("case Z");
       if (expression.toString()==="0" && !".+*/^√".includes(newSymbol)) {
+          console.log("case A");
           setExpression(newSymbol);
-      } else if (expression.slice(0,1)==="E") {
+      } else if (expression.toString().slice(0,1)==="E") {
+          console.log("case B");
           setExpression(newSymbol);
       } else if (/(\+|\*|\/|\^|√|-|\()$/.test(expression) && "+*/^√)".includes(newSymbol)) {
+          console.log("case C");
           // do nothing--invalid input sequence e.g. ++, +), -+, -), (+, ()
       } else if (/\.\d*$/.test(expression) && newSymbol===".") {
+          console.log("case D");
           // do nothing--invalid input sequence: double decimal
       } else if (/(\)|\.)$/.test(expression) && newSymbol===".") {
-          // do nothing--invalid input sequence: ). or ..
-      } else if (expression.slice(-1)===")" && /\d/.test(newSymbol)) {
+          console.log("case E");
+          // do nothing--invalid input sequence: ).
+      } else if (expression.toString().slice(-1)===")" && /\d/.test(newSymbol)) {
+          console.log("case F");
           // do nothing--invalid input sequence: e.g. )3
       } else if (/(\d|\)|\.)$/.test(expression) && newSymbol==="(") { 
+          console.log("case G");
           setExpression(expression + "*(");     // special cases assuming the user intends multiplication
       } else {
+          console.log("case H");
           setExpression(expression + newSymbol);
       }
   }
@@ -53,7 +62,7 @@ function App() {
 }
 
   const evaluateDisplay = () => {
-
+      // need to address division by 0 and 0th roots
       var updatedExpression = expression.toString();   // need this because state can't be updated in a loop
       const regexForFloatLimit = /\d+/g;
       var allNumbersFound = updatedExpression.match(regexForFloatLimit);
