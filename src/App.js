@@ -54,7 +54,10 @@ function App() {
   }
 
   const oppositeSign = () => {            // when user presses "+/-" button
-    if (expression && expression.length > 1) {
+    if (expression.toString()==="0") {
+    } else if ( /\d+\.?\d*$/.test(expression) ) {
+      setExpression(777);
+    } else if (expression && expression.length > 1) {
       setExpression(expression.slice(0,-1));
     } else {
       setExpression(0);
