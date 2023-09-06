@@ -55,8 +55,11 @@ function App() {
 
   const oppositeSign = () => {            // when user presses "+/-" button
     if (expression.toString()==="0") {
-    } else if ( /\d+\.?\d*$/.test(expression) ) {
-      setExpression(777);
+    } else if ( /-?\d+\.?\d*$/.test(expression) ) {
+      var numberToNegate = /-?\d+\.?\d*$/.exec(expression);
+      var negationPerformed = -numberToNegate;
+      var updatedExpression = expression.replace(numberToNegate,negationPerformed);
+      setExpression(updatedExpression);
     } else if (expression && expression.length > 1) {
       setExpression(expression.slice(0,-1));
     } else {
