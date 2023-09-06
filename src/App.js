@@ -58,7 +58,11 @@ function App() {
     } else if ( /-?\d+\.?\d*$/.test(expression) ) {
       var numberToNegate = /-?\d+\.?\d*$/.exec(expression);
       var negationPerformed = -numberToNegate;
-      var updatedExpression = expression.replace(numberToNegate,negationPerformed);
+      if ( /(\d|\.)-\d+\.?\d*$/.test(expression) ) {
+        var updatedExpression = expression.replace(numberToNegate,"-"+numberToNegate);
+      } else {
+        var updatedExpression = expression.replace(numberToNegate,negationPerformed);
+      }
       setExpression(updatedExpression);
     } else if (expression && expression.length > 1) {
       setExpression(expression.slice(0,-1));
