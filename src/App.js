@@ -13,30 +13,30 @@ function App() {
   };
 
   const sendExpressionToDisplay = (newSymbol) => {
-      console.log("case Z");
+      // console.log("case Z");
       if (expression.toString()==="0" && !".+*/^√".includes(newSymbol)) {
-          console.log("case A");
+          // console.log("case A");
           setExpression(newSymbol);
       } else if (expression.toString().slice(0,1)==="E") {
-          console.log("case B");
+          // console.log("case B");
           setExpression(newSymbol);
       } else if (/(\+|\*|\/|\^|√|-|\()$/.test(expression) && "+*/^√)".includes(newSymbol)) {
-          console.log("case C");
+          // console.log("case C");
           // do nothing--invalid input sequence e.g. ++, +), -+, -), (+, ()
       } else if (/\.\d*$/.test(expression) && newSymbol===".") {
-          console.log("case D");
+          // console.log("case D");
           // do nothing--invalid input sequence: double decimal
       } else if (/(\)|\.)$/.test(expression) && newSymbol===".") {
-          console.log("case E");
+          // console.log("case E");
           // do nothing--invalid input sequence: ).
       } else if (expression.toString().slice(-1)===")" && /\d/.test(newSymbol)) {
-          console.log("case F");
+          // console.log("case F");
           // do nothing--invalid input sequence: e.g. )3
       } else if (/(\d|\)|\.)$/.test(expression) && newSymbol==="(") { 
-          console.log("case G");
+          // console.log("case G");
           setExpression(expression + "*(");     // special cases assuming the user intends multiplication
       } else {
-          console.log("case H");
+          // console.slog("case H");
           setExpression(expression + newSymbol);
       }
   }
@@ -54,16 +54,36 @@ function App() {
   }
 
   const oppositeSign = () => {            // when user presses "+/-" button
+    var updatedExpression = expression;
     if (expression.toString()==="0") {
     } else if ( /-?\d+\.?\d*$/.test(expression) ) {
       var numberToNegate = /-?\d+\.?\d*$/.exec(expression);
       var negationPerformed = -numberToNegate;
-      if ( /(\d|\.)-\d+\.?\d*$/.test(expression) ) {
-        var updatedExpression = expression.replace(numberToNegate,"-"+numberToNegate);
+      if ( /(\d|\.)-\d+\.?\d*$/.test(expression) ) {    // if display currently ends with a number or decimal point
+        updatedExpression = expression.replace(numberToNegate,"-"+numberToNegate);
       } else {
-        var updatedExpression = expression.replace(numberToNegate,negationPerformed);
+        updatedExpression = expression.replace(numberToNegate,negationPerformed);
       }
       setExpression(updatedExpression);
+
+    } else if ( /\)*$/.test(expression) ) {     // if display currently ends with at least one closing parenthesis
+      var parenthesesStillOpen = 0;
+      let i = expression.length;
+      do {
+          i--;
+          console.log(expression[i]);
+          if (expression[i] === ")") {
+            parenthesesStillOpen++;
+          } else if (expression[i] === "(") {
+            parenthesesStillOpen--;
+          }
+          // console.log(parenthesesStillOpen);
+      } while (i >= 0 && parenthesesStillOpen > 0);
+      console.log("last char:");
+      console.log(expression[i]);
+      updatedExpression = expression.slice(0,i)+"-"+expression.slice(i);
+      setExpression(updatedExpression);
+
     } else if (expression && expression.length > 1) {
       setExpression(expression.slice(0,-1));
     } else {
