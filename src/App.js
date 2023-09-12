@@ -124,6 +124,7 @@ function App() {
           }
 
           while (/-?\d+\.?\d*(\*|\/)-?\d+\.?\d*/.test(updatedExpression)) {       // handle multiplication, division
+            console.log("Doing multiplication or division!");
             var searchExpRadMD = /-?\d+\.?\d*(\*|\/)-?\d+\.?\d*/.exec(updatedExpression);
             console.log(searchExpRadMD);
             var thisEvalMD = searchExpRadMD[0].split(searchExpRadMD[1]);
@@ -138,9 +139,11 @@ function App() {
           }
 
           while (/-?\d+\.?\d*(\+|-)\d+\.?\d*/.test(updatedExpression)) {       // handle addition, subtraction
+            console.log("Doing addition or subtraction!");
               var searchExpRadAS = /-?\d+\.?\d*(\+|-)\d+\.?\d*/.exec(updatedExpression);
               console.log("A   "+searchExpRadAS);
-              var thisEvalAS = updatedExpression.match(/-?\d+/g);
+              var thisEvalAS = searchExpRadAS[0].split(searchExpRadAS[1]);
+              // var thisEvalAS = updatedExpression.match(/-?\d+/g);
               console.log("B   "+thisEvalAS);
               console.log("C   "+thisEvalAS[0]);
               console.log("D   "+thisEvalAS[1]);
