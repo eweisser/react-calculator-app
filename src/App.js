@@ -111,10 +111,7 @@ function App() {
 
           while (/-?\d+\.?\d*(\^|√)-?\d+\.?\d*/.test(updatedExpression)) {    // handle exponents, roots
             var searchExpRad = /-?\d+\.?\d*(\^|√)-?\d+\.?\d*/.exec(updatedExpression);
-            console.log(searchExpRad);
             var thisEval = searchExpRad[0].split(searchExpRad[1])
-            console.log(thisEval[0]);
-            console.log(thisEval[1]);
             if (searchExpRad[1]==="^") {
               thisEval = Math.pow(parseFloat(thisEval[0]),parseFloat(thisEval[1]));
             } else {
@@ -124,12 +121,8 @@ function App() {
           }
 
           while (/-?\d+\.?\d*(\*|\/)-?\d+\.?\d*/.test(updatedExpression)) {       // handle multiplication, division
-            console.log("Doing multiplication or division!");
             var searchExpRadMD = /-?\d+\.?\d*(\*|\/)-?\d+\.?\d*/.exec(updatedExpression);
-            console.log(searchExpRadMD);
             var thisEvalMD = searchExpRadMD[0].split(searchExpRadMD[1]);
-            console.log(thisEvalMD[0]);
-            console.log(thisEvalMD[1]);
             if (searchExpRadMD[1]==="*") {
               thisEvalMD = parseFloat(thisEvalMD[0]) * parseFloat(thisEvalMD[1]);
             } else {
@@ -139,22 +132,21 @@ function App() {
           }
 
           while (/-?\d+\.?\d*(\+|-)\d+\.?\d*/.test(updatedExpression)) {       // handle addition, subtraction
-            console.log("Doing addition or subtraction!");
               var searchExpRadAS = /-?\d+\.?\d*(\+|-)\d+\.?\d*/.exec(updatedExpression);
-              console.log("A   "+searchExpRadAS);
               var thisEvalAS = searchExpRadAS[0].split(searchExpRadAS[1]);
-              // var thisEvalAS = updatedExpression.match(/-?\d+/g);
-              console.log("B   "+thisEvalAS);
-              console.log("C   "+thisEvalAS[0]);
-              console.log("D   "+thisEvalAS[1]);
-              thisEvalAS = parseFloat(thisEvalAS[0]) + parseFloat(thisEvalAS[1]);
+              var operand1 = thisEvalAS.length < 3 ? thisEvalAS[0] : -thisEvalAS[1];
+              var operand2 = thisEvalAS.length < 3 ? thisEvalAS[1] : thisEvalAS[2];
+              if (searchExpRadAS[1]==="+") {
+                thisEvalAS = parseFloat(operand1) + parseFloat(operand2);
+              } else {
+                thisEvalAS = parseFloat(operand1) - parseFloat(operand2);
+              }
               updatedExpression = updatedExpression.replace(searchExpRadAS[0],thisEvalAS.toString());
           }
 
           while (/\(-?\d+\.?\d*\)/.exec(updatedExpression)) {      // eliminate superfluous parentheses
               searchExpRad = /\(-?\d+\.?\d*\)/.exec(updatedExpression);
               var simplified = searchExpRad[0].slice(1,-1);
-              console.log(searchExpRad);
               updatedExpression = updatedExpression.replace(searchExpRad[0],simplified);
           }
 
