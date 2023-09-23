@@ -55,36 +55,37 @@ function App() {
 
   const oppositeSign = () => {            // when user presses "+/-" button
     var updatedExpression = expression;
-    if (expression.toString()==="0") {
-    } else if ( /-?\d+\.?\d*$/.test(expression) ) {
+
+    if (expression.toString()==="0") {                  // if display currently is just 0, do nothing
+
+    } else if ( /-?\d+\.?\d*$/.test(expression) ) {     // if display currently ends with a number or decimal point
       var numberToNegate = /-?\d+\.?\d*$/.exec(expression);
       var negationPerformed = -numberToNegate;
-      if ( /(\d|\.)-\d+\.?\d*$/.test(expression) ) {    // if display currently ends with a number or decimal point
+      if ( /(\d|\.)-\d+\.?\d*$/.test(expression) ) {
         updatedExpression = expression.replace(numberToNegate,"-"+numberToNegate);
       } else {
         updatedExpression = expression.replace(numberToNegate,negationPerformed);
       }
       setExpression(updatedExpression);
 
-    } else if ( /\)*$/.test(expression) ) {     // if display currently ends with at least one closing parenthesis
+    } else if ( /\)+$/.test(expression) ) {     // if display currently ends with at least one closing parenthesis
       var parenthesesStillOpen = 0;
       let i = expression.length;
       do {
           i--;
-          console.log(expression[i]);
           if (expression[i] === ")") {
             parenthesesStillOpen++;
           } else if (expression[i] === "(") {
             parenthesesStillOpen--;
           }
-          // console.log(parenthesesStillOpen);
       } while (i >= 0 && parenthesesStillOpen > 0);
-      console.log("last char:");
-      console.log(expression[i]);
       updatedExpression = expression.slice(0,i)+"-"+expression.slice(i);
       setExpression(updatedExpression);
 
-    } else if (expression && expression.length > 1) {
+    } else if ( /-|\+|\*|\/|\^|√|\($/.test(expression) ) {     // if display currently ends with +, -, *, /, ^, √, or open parenthesis
+      setExpression(expression + "-");
+
+    } else if (expression && expression.length > 1) {     // EXCEPTION HANDLER -- act like backspace
       setExpression(expression.slice(0,-1));
     } else {
       setExpression(0);
