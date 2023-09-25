@@ -4,10 +4,10 @@
   box-shadow: 4px 4px #9BD;
   font-family: "Georgia", "Calibri", "Trebuchet MS", "Tahoma", sans-serif;
   font-size: 24px;
-  height: 90vh;
+  height: calc(95vh - 46px);
   margin: 8px;
   padding: 12px;
-  width: 33vw;
+  width: 500px;
 }
 
 #big-grid {
@@ -39,7 +39,7 @@
   grid-row-end: 8;
   grid-template-rows: repeat(5, minmax(0,1fr));
   grid-template-columns: repeat(5, minmax(0,1fr));
-  font-size: 16pt;
+  font-size: 3.5vh;
   user-select: none;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -139,4 +139,14 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+@media (max-width: 600px) {
+
+  #calculator-container {
+    font-size: 3.5vh;
+    height: calc(95vh - 46px);
+    width: 85vw;
+  }
+
 }
