@@ -1,12 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
 import CalcButton from './components/calc-button/calc-button';
 import AnswerDisplay from './components/answer-display';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useCallback } from 'react';
 
 function App() {
 
+  const handleKeyDown = (event) => {
+    if ("1234567890.+-*/()^".includes(event.key)) {
+      sendExpressionToDisplay(event.key);
+    } else if (event.key == "=" || event.key == "Enter") {
+      evaluateDisplay();
+    } else if (event.key == "Backspace") {
+      backspaceDisplay();
+    } else if (event.key == "Escape") {
+      clearDisplay();
+    }
+  };
+
   const [expression, setExpression] = useState(0);
+
+  const emailInput = useCallback((inputElement) => {
+    if (inputElement) {
+      inputElement.focus();
+    }
+  }, []);
 
   const sendSymbolToApp = (symbolFromButton) => {
       sendExpressionToDisplay(symbolFromButton);
@@ -168,7 +186,7 @@ function App() {
   }
 
   return (
-    <div className="App">                 {/* background is blue */}
+    <div className="App" tabIndex="0" onKeyDown={handleKeyDown} ref={emailInput} >                 {/* background is blue */}
 
       <div id="calculator-container">
 
