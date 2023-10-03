@@ -9,11 +9,11 @@ function App() {
   const handleKeyDown = (event) => {
     if ("1234567890.+-*/()^".includes(event.key)) {
       sendExpressionToDisplay(event.key);
-    } else if (event.key == "=" || event.key == "Enter") {
+    } else if (event.key === "=" || event.key === "Enter") {
       evaluateDisplay();
-    } else if (event.key == "Backspace") {
+    } else if (event.key === "Backspace") {
       backspaceDisplay();
-    } else if (event.key == "Escape") {
+    } else if (event.key === "Escape") {
       clearDisplay();
     }
   };
